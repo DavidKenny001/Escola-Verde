@@ -1,0 +1,29 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Programa Escola Verde | IFSertão-PE Campus Petrolina{% endblock %}</title>
+  <meta name="description" content="Conheça o Programa Escola Verde: educação ambiental, horta orgânica, coleta seletiva e descarte de pilhas no IFSertão-PE Campus Petrolina.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="#inicio">Escola Verde</a>
+    <nav aria-label="Principal">
+      <a href="#sobre">Sobre</a>
+      <a href="#acoes">Ações</a>
+      <a href="#lixo-seco">Lixo seco</a>
+      <a href="#nova-fase">Nova fase</a>
+    </nav>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="rodape">
+    <img src="{% static 'core/img/logo-pev.png' %}" alt="Selo Educação Ambiental PEV, IFSertão-PE Campus Petrolina" width="96" height="96">
+    <p>Programa Escola Verde<br>IFSertão-PE, Campus Petrolina<br>Conteúdo baseado no vídeo institucional do programa.</p>
+  </footer>
+</body>
+</html>

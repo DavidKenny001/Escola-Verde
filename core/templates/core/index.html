@@ -1,0 +1,82 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+<section class="hero" id="inicio">
+  <div class="hero-texto">
+    <h1>Educação ambiental na prática, do canteiro à sala de aula</h1>
+    <p>O Programa Escola Verde integra ensino, pesquisa e extensão no IFSertão-PE Campus Petrolina, com horta orgânica, compostagem, coleta seletiva e descarte correto de pilhas e baterias.</p>
+    <p class="botoes">
+      <a class="botao" href="#acoes">Conheça as ações</a>
+      <a class="botao botao-claro" href="#lixo-seco">Aprenda a separar o lixo seco</a>
+    </p>
+  </div>
+  <div class="hero-logo">
+    <img src="{% static 'core/img/logo-escola-verde.png' %}" alt="Logo do Programa Escola Verde: casa com símbolo de reciclagem sobre uma folha" width="440" height="360">
+  </div>
+</section>
+
+<section class="secao" id="sobre">
+  <h2>Sobre o programa</h2>
+  <p>O Escola Verde foi instituído no Instituto Federal Sertão Pernambucano por meio de portaria e implantado em todos os campi. No Campus Petrolina, tornou-se um núcleo de educação ambiental com ações sustentáveis.</p>
+  <p>Nos últimos 3 anos, o programa realizou palestras, minicursos e atividades práticas com estudantes de outras instituições e com comunidades. A horta orgânica já recebeu mais de 5.000 pessoas, de crianças a idosos.</p>
+</section>
+
+<section class="secao" id="acoes">
+  <h2>O que o programa faz</h2>
+  <div class="acao">
+    <h3>Horta orgânica</h3>
+    <p>Produz cebolinha, coentro, alface, cenoura e até morango no Nordeste. A horta também é automatizada: a irrigação é controlada pelo celular e monitorada por câmera de segurança.</p>
+  </div>
+  <div class="acao">
+    <h3>Compostagem e minhocário</h3>
+    <p>Todo o processo começa na compostagem e no minhocário. Em parceria com a cantina e com o PEV, o projeto distribui produtos da horta e recebe resíduos orgânicos.</p>
+  </div>
+  <div class="acao">
+    <h3>Coleta seletiva</h3>
+    <p>O campus arrecada papelão, papel, plástico e outros resíduos secos. Uma associação parceira recolhe o material e o transforma em novas matérias, gerando renda para famílias em situação de vulnerabilidade.</p>
+  </div>
+  <div class="acao">
+    <h3>Pilhas e baterias</h3>
+    <p>Coletores no campus recebem pilhas e baterias, que são reunidas, pesadas e levadas a locais de descarte correto, como o shopping e o Parque Josefa Coelho, em Petrolina.</p>
+  </div>
+  <div class="acao">
+    <h3>Pesquisa e plantas da caatinga</h3>
+    <p>Estudantes pesquisam espécies como a barriguda e o nim, seus princípios ativos, benefícios e malefícios, e levam o conhecimento para a sala de aula. O mesmo vale para as plantas da caatinga.</p>
+  </div>
+  <div class="acao">
+    <h3>Minicursos e oficinas</h3>
+    <p>As atividades dialogam com os cursos do campus: chás, xaropes, balas e salgadinhos de banana (Alimentos); essências de flores e geleias de frutas (Química); plantas baixas para a horta (Edificações); a irrigação automatizada (Informática). Também há oficinas de brinquedos recicláveis com garrafas PET e caixas de sapato.</p>
+  </div>
+</section>
+
+<section class="secao" id="lixo-seco">
+  <h2>Como separar o lixo seco</h2>
+  <p>Em casa ou no condomínio, reserve uma sacola só para o lixo seco. Passe um pouco de água nas embalagens para tirar o excesso de resíduo.</p>
+  <div class="duas-colunas">
+    <div class="pode">
+      <h3>Pode colocar</h3>
+      <ul>
+        <li>Garrafas PET e vidros</li>
+        <li>Embalagens de shampoo e de iogurte</li>
+        <li>Latinhas e aerossóis</li>
+        <li>Embalagens de produtos de higiene</li>
+        <li>Embalagens de feijão e arroz</li>
+        <li>Papelão e papel</li>
+      </ul>
+    </div>
+    <div class="nao-pode">
+      <h3>Não pode colocar</h3>
+      <ul>
+        <li>Restos de comida</li>
+        <li>Outros resíduos orgânicos</li>
+      </ul>
+      <p>Eles contaminam o material seco e atrapalham a triagem.</p>
+    </div>
+  </div>
+</section>
+
+<section class="secao destaque" id="nova-fase">
+  <h2>Eu cuido do meu campus</h2>
+  <p>O programa entra em uma nova fase, em parceria com a gestão do Campus Petrolina, com o projeto Eu Cuido do Meu Campus. Em breve, novidades.</p>
+</section>
+{% endblock %}
