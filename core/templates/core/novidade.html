@@ -1,0 +1,14 @@
+{% extends "core/base.html" %}
+{% block title %}{{ p.titulo }} | Escola Verde{% endblock %}
+{% block content %}
+<article class="secao estreita">
+  <h2>{{ p.titulo }}</h2>
+  <p class="data">{{ p.criado_em|date:"d/m/Y" }}</p>
+  {% if p.imagem %}<img class="midia" src="{{ p.imagem.url }}" alt="{{ p.titulo }}">{% endif %}
+  {{ p.texto|linebreaks }}
+  {% if p.video_arquivo %}<video class="midia" controls src="{{ p.video_arquivo.url }}"></video>{% endif %}
+  {% if p.video_embed %}<iframe class="midia video" src="{{ p.video_embed }}" title="Vídeo: {{ p.titulo }}" allowfullscreen></iframe>
+  {% elif p.video_url %}<p><a href="{{ p.video_url }}" rel="noopener noreferrer">Assistir ao vídeo</a></p>{% endif %}
+  <p><a href="{% url 'core:novidades' %}">Voltar às novidades</a></p>
+</article>
+{% endblock %}

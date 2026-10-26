@@ -1,0 +1,26 @@
+.estreita { max-width: 40rem; }
+.sair { margin: 0; }
+.sair button { background: none; border: 0; color: #fff; font: inherit; cursor: pointer; padding: 0; }
+.sair button:hover { text-decoration: underline; text-underline-offset: 4px; }
+.sair button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.mensagens { background: var(--folha); color: #fff; padding: .6rem clamp(1rem, 5vw, 3rem); }
+.mensagens p { margin: 0; }
+.formulario > div { margin-bottom: 1rem; }
+.formulario label { display: block; font-weight: 600; }
+.formulario input:not([type=checkbox]):not([type=file]), .formulario textarea {
+  width: 100%; padding: .55rem; font: inherit; border: 2px solid var(--linha); border-radius: 6px; background: #fff;
+}
+.formulario .helptext, .formulario .errorlist { font-size: .95rem; margin: .25rem 0; }
+.formulario .errorlist { color: #a1261b; list-style: none; padding: 0; }
+.botao { border: 0; cursor: pointer; font: inherit; font-weight: 600; }
+.item { display: grid; grid-template-columns: 12rem 1fr; gap: 1.5rem; padding: 1.5rem 0; border-top: 2px solid var(--linha); }
+.item:not(:has(img)) { grid-template-columns: 1fr; }
+.item img { width: 100%; height: auto; border-radius: 6px; }
+.item h3 { margin: 0; }
+.data { color: #4a5a4c; font-size: .95rem; margin: 0 0 .5rem; }
+.midia { display: block; max-width: 100%; height: auto; border-radius: 6px; margin: 1rem 0; }
+.video { width: 100%; aspect-ratio: 16 / 9; border: 0; }
+.tabela { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; padding: .6rem; border-bottom: 2px solid var(--linha); }
+@media (max-width: 760px) { .item { grid-template-columns: 1fr; } }

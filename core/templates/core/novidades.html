@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+{% block title %}Novidades | Escola Verde{% endblock %}
+{% block content %}
+<section class="secao">
+  <h2>Novidades</h2>
+  {% for p in publicacoes %}
+  <article class="item">
+    {% if p.imagem %}<img src="{{ p.imagem.url }}" alt="{{ p.titulo }}">{% endif %}
+    <div>
+      <h3><a href="{% url 'core:novidade' p.pk %}">{{ p.titulo }}</a></h3>
+      <p class="data">{{ p.criado_em|date:"d/m/Y" }}</p>
+      <p>{{ p.texto|truncatewords:35 }}</p>
+    </div>
+  </article>
+  {% empty %}<p>Ainda não há publicações.</p>{% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "core/base.html" %}
+{% block title %}{{ titulo }} | Escola Verde{% endblock %}
+{% block content %}
+<section class="secao estreita">
+  <h2>{{ titulo }}</h2>
+  {% if aviso %}<p>{{ aviso }}</p>{% endif %}
+  <form method="post" enctype="multipart/form-data" class="formulario">{% csrf_token %}
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+    {{ form }}
+    <button class="botao" type="submit">{{ botao }}</button>
+  </form>
+  {% if titulo == "Entrar" %}<p>Ainda não tem conta? <a href="{% url 'core:cadastro' %}">Cadastre-se</a>.</p>{% endif %}
+</section>
+{% endblock %}

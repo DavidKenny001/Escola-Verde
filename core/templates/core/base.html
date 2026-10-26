@@ -9,17 +9,27 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/contas.css' %}">
 </head>
 <body>
   <header class="topo">
-    <a class="marca" href="#inicio">Escola Verde</a>
+    <a class="marca" href="{% url 'core:index' %}">Escola Verde</a>
     <nav aria-label="Principal">
-      <a href="#sobre">Sobre</a>
-      <a href="#acoes">Ações</a>
-      <a href="#lixo-seco">Lixo seco</a>
-      <a href="#nova-fase">Nova fase</a>
+      <a href="{% url 'core:index' %}#sobre">Sobre</a>
+      <a href="{% url 'core:index' %}#acoes">Ações</a>
+      <a href="{% url 'core:novidades' %}">Novidades</a>
+      {% if user.is_authenticated %}
+        {% if user.is_staff %}<a href="{% url 'core:painel' %}">Painel</a>{% endif %}
+        <form method="post" action="{% url 'core:sair' %}" class="sair">{% csrf_token %}
+          <button type="submit">Sair ({{ user.first_name|default:user.username }})</button>
+        </form>
+      {% else %}
+        <a href="{% url 'core:entrar' %}">Entrar</a>
+        <a href="{% url 'core:cadastro' %}">Cadastrar</a>
+      {% endif %}
     </nav>
   </header>
+  {% if messages %}<div class="mensagens" role="status">{% for m in messages %}<p>{{ m }}</p>{% endfor %}</div>{% endif %}
   <main>{% block content %}{% endblock %}</main>
   <footer class="rodape">
     <img src="{% static 'core/img/logo-pev.png' %}" alt="Selo Educação Ambiental PEV, IFSertão-PE Campus Petrolina" width="96" height="96">

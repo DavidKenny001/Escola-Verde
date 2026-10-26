@@ -125,4 +125,10 @@ MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
+    
 }
+LOGIN_URL = "core:entrar"
+LOGIN_REDIRECT_URL = "core:index"
+LOGOUT_REDIRECT_URL = "core:index"
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
