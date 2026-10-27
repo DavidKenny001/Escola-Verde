@@ -4,9 +4,10 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import AdministradorForm, CadastroForm, PublicacaoForm
+from .forms import AdministradorForm, CadastroForm, FotoFormSet, PublicacaoForm
 from .models import Publicacao
 
 
@@ -39,7 +40,9 @@ def cadastro(request):
 
 
 def novidades(request):
-    return render(request, "core/novidades.html", {"publicacoes": Publicacao.objects.all()})
+    qs = Publicacao.objects.all()
+    total = qs.aggregate(t=Sum("pessoas_atendidas"))["t"] or 0
+    return render(request, "core/novidades.html", {"publicacoes": qs, "total_acoes": qs.count(), "total_pessoas": total})
 
 
 def novidade(request, pk):
@@ -55,14 +58,17 @@ def painel(request):
 def publicacao_salvar(request, pk=None):
     obj = get_object_or_404(Publicacao, pk=pk) if pk else None
     form = PublicacaoForm(request.POST or None, request.FILES or None, instance=obj)
-    if form.is_valid():
+    fotos = FotoFormSet(request.POST or None, request.FILES or None, instance=obj)
+    if form.is_valid() and fotos.is_valid():
         p = form.save(commit=False)
         if not p.autor_id:
             p.autor = request.user
         p.save()
-        messages.success(request, "Publicação salva.")
+        fotos.instance = p
+        fotos.save()
+        messages.success(request, "Ação salva.")
         return redirect("core:painel")
-    return _formulario(request, form, "Editar publicação" if obj else "Nova publicação", "Salvar")
+    return _formulario(request, form, "Editar ação" if obj else "Nova ação", "Salvar", fotos=fotos)
 
 
 @somente_admin
@@ -70,7 +76,7 @@ def publicacao_excluir(request, pk):
     obj = get_object_or_404(Publicacao, pk=pk)
     if request.method == "POST":
         obj.delete()
-        messages.success(request, "Publicação excluída.")
+        messages.success(request, "Ação excluída.")
         return redirect("core:painel")
     return _formulario(request, None, f"Excluir “{obj.titulo}”?", "Excluir", aviso="Esta ação não pode ser desfeita.")
 

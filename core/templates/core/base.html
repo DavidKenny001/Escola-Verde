@@ -16,8 +16,8 @@
     <a class="marca" href="{% url 'core:index' %}">Escola Verde</a>
     <nav aria-label="Principal">
       <a href="{% url 'core:index' %}#sobre">Sobre</a>
-      <a href="{% url 'core:index' %}#acoes">Ações</a>
-      <a href="{% url 'core:novidades' %}">Novidades</a>
+      <a href="{% url 'core:index' %}#acoes">O que fazemos</a>
+      <a href="{% url 'core:novidades' %}">Ações realizadas</a>
       {% if user.is_authenticated %}
         {% if user.is_staff %}<a href="{% url 'core:painel' %}">Painel</a>{% endif %}
         <form method="post" action="{% url 'core:sair' %}" class="sair">{% csrf_token %}

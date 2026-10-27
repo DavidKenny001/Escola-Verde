@@ -7,6 +7,12 @@
   <form method="post" enctype="multipart/form-data" class="formulario">{% csrf_token %}
     {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
     {{ form }}
+    {% if fotos %}
+      <h3>Fotos da galeria</h3>
+      <p>Adicione quantas fotos quiser. Para mais de três, salve e edite a ação novamente.</p>
+      {{ fotos.management_form }}
+      {% for f in fotos %}<fieldset class="foto-form">{{ f }}</fieldset>{% endfor %}
+    {% endif %}
     <button class="botao" type="submit">{{ botao }}</button>
   </form>
   {% if titulo == "Entrar" %}<p>Ainda não tem conta? <a href="{% url 'core:cadastro' %}">Cadastre-se</a>.</p>{% endif %}

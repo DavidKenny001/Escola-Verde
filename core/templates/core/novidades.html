@@ -1,14 +1,15 @@
 {% extends "core/base.html" %}
-{% block title %}Novidades | Escola Verde{% endblock %}
+{% block title %}Ações realizadas | Escola Verde{% endblock %}
 {% block content %}
 <section class="secao">
-  <h2>Novidades</h2>
+  <h2>Ações realizadas</h2>
+  <p class="resumo"><strong>{{ total_acoes }}</strong> ações registradas e <strong>{{ total_pessoas }}</strong> pessoas atendidas.</p>
   {% for p in publicacoes %}
   <article class="item">
     {% if p.imagem %}<img src="{{ p.imagem.url }}" alt="{{ p.titulo }}">{% endif %}
     <div>
       <h3><a href="{% url 'core:novidade' p.pk %}">{{ p.titulo }}</a></h3>
-      <p class="data">{{ p.criado_em|date:"d/m/Y" }}</p>
+      <p class="data">{{ p.data_acao|date:"d/m/Y" }}{% if p.local %} | {{ p.local }}{% endif %}{% if p.pessoas_atendidas %} | {{ p.pessoas_atendidas }} pessoas{% endif %}</p>
       <p>{{ p.texto|truncatewords:35 }}</p>
     </div>
   </article>

@@ -24,3 +24,9 @@
 table { border-collapse: collapse; width: 100%; }
 th, td { text-align: left; padding: .6rem; border-bottom: 2px solid var(--linha); }
 @media (max-width: 760px) { .item { grid-template-columns: 1fr; } }
+.resumo { font-size: 1.15rem; }
+.galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.galeria img { width: 100%; height: auto; border-radius: 6px; }
+.galeria figcaption { font-size: .95rem; }
+.galeria figure { margin: 0; }
+.foto-form { border: 2px solid var(--linha); border-radius: 6px; margin: 0 0 1rem; padding: 1rem; }

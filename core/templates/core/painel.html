@@ -4,16 +4,16 @@
 <section class="secao">
   <h2>Painel do administrador</h2>
   <p class="botoes">
-    <a class="botao" href="{% url 'core:publicacao_nova' %}">Nova publicação</a>
+    <a class="botao" href="{% url 'core:publicacao_nova' %}">Nova ação</a>
     {% if user.is_superuser %}<a class="botao" href="{% url 'core:administrador_novo' %}">Novo administrador</a>{% endif %}
   </p>
   <div class="tabela"><table>
-    <thead><tr><th>Título</th><th>Data</th><th>Ações</th></tr></thead>
+    <thead><tr><th>Ação</th><th>Data</th><th>Ações</th></tr></thead>
     <tbody>
     {% for p in publicacoes %}
-      <tr><td><a href="{% url 'core:novidade' p.pk %}">{{ p.titulo }}</a></td><td>{{ p.criado_em|date:"d/m/Y" }}</td>
+      <tr><td><a href="{% url 'core:novidade' p.pk %}">{{ p.titulo }}</a></td><td>{{ p.data_acao|date:"d/m/Y" }}</td>
       <td><a href="{% url 'core:publicacao_editar' p.pk %}">Editar</a> | <a href="{% url 'core:publicacao_excluir' p.pk %}">Excluir</a></td></tr>
-    {% empty %}<tr><td colspan="3">Nenhuma publicação ainda.</td></tr>{% endfor %}
+    {% empty %}<tr><td colspan="3">Nenhuma ação ainda.</td></tr>{% endfor %}
     </tbody>
   </table></div>
 </section>
