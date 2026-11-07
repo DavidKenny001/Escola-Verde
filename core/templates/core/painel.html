@@ -5,6 +5,7 @@
   <h2>Painel do administrador</h2>
   <p class="botoes">
     <a class="botao" href="{% url 'core:publicacao_nova' %}">Nova ação</a>
+    <a class="botao" href="{% url 'core:coletas' %}">Coletas de materiais</a>
     {% if user.is_superuser %}<a class="botao" href="{% url 'core:administrador_novo' %}">Novo administrador</a>{% endif %}
   </p>
   <div class="tabela"><table>

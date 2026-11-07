@@ -18,5 +18,10 @@ urlpatterns = [
     path("painel/nova/", views.publicacao_salvar, name="publicacao_nova"),
     path("painel/<int:pk>/editar/", views.publicacao_salvar, name="publicacao_editar"),
     path("painel/<int:pk>/excluir/", views.publicacao_excluir, name="publicacao_excluir"),
+    path("painel/coletas/", views.coletas, name="coletas"),
+    path("painel/coletas/nova/", views.coleta_salvar, name="coleta_nova"),
+    path("painel/coletas/<int:pk>/editar/", views.coleta_salvar, name="coleta_editar"),
+    path("painel/coletas/<int:pk>/excluir/", views.coleta_excluir, name="coleta_excluir"),
+    path("painel/coletas/tipo/", views.tipo_novo, name="tipo_novo"),
     path("painel/administrador/", views.administrador_novo, name="administrador_novo"),
 ]

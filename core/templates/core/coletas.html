@@ -1,0 +1,41 @@
+{% extends "core/base.html" %}
+{% block title %}Coletas | Escola Verde{% endblock %}
+{% block content %}
+<section class="secao">
+  <h2>Coletas de materiais</h2>
+  <p class="botoes">
+    <a class="botao" href="{% url 'core:coleta_nova' %}">Nova coleta</a>
+    <a class="botao" href="{% url 'core:tipo_novo' %}">Novo tipo de material</a>
+    <a class="botao" href="{% url 'core:painel' %}">Voltar ao painel</a>
+  </p>
+  <form method="get" class="filtros">
+    <label>Material
+      <select name="tipo"><option value="">Todos</option>
+      {% for t in tipos %}<option value="{{ t.pk }}" {% if tipo_sel == t.pk|stringformat:"s" %}selected{% endif %}>{{ t.nome }}</option>{% endfor %}
+      </select></label>
+    <label>Ano
+      <select name="ano"><option value="">Todos</option>
+      {% for a in anos %}<option value="{{ a }}" {% if ano_sel == a|stringformat:"s" %}selected{% endif %}>{{ a }}</option>{% endfor %}
+      </select></label>
+    <button class="botao" type="submit">Filtrar</button>
+  </form>
+  <h3>Totais</h3>
+  <div class="tabela"><table>
+    <thead><tr><th>Material</th><th>Total</th></tr></thead>
+    <tbody>{% for t in totais %}<tr><td>{{ t.nome }}</td><td>{{ t.total|floatformat:"-2" }} {{ t.unidade }}</td></tr>
+    {% empty %}<tr><td colspan="2">Nenhuma coleta encontrada.</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <h3>Registros</h3>
+  <div class="tabela"><table>
+    <thead><tr><th>Data</th><th>Material</th><th>Quantidade</th><th>Destinação</th><th>Certificado</th><th>Ações</th></tr></thead>
+    <tbody>
+    {% for c in coletas %}
+      <tr><td>{{ c.data_coleta|date:"d/m/Y" }}</td><td>{{ c.tipo.nome }}</td>
+      <td>{{ c.quantidade|floatformat:"-2" }} {{ c.tipo.get_unidade_display }}</td><td>{{ c.destinacao }}</td>
+      <td>{% if c.certificado %}<a href="{{ c.certificado.url }}">Abrir</a>{% endif %}</td>
+      <td><a href="{% url 'core:coleta_editar' c.pk %}">Editar</a> | <a href="{% url 'core:coleta_excluir' c.pk %}">Excluir</a></td></tr>
+    {% empty %}<tr><td colspan="6">Nenhuma coleta registrada.</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% endblock %}

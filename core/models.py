@@ -1,7 +1,7 @@
 from urllib.parse import parse_qs, urlparse
 
 from django.conf import settings
-from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
 
@@ -52,3 +52,38 @@ class FotoPublicacao(models.Model):
 
     def __str__(self):
         return self.legenda or f"Foto {self.pk}"
+
+
+class TipoMaterial(models.Model):
+    UNIDADES = [("kg", "kg"), ("un", "unidades"), ("l", "litros")]
+    nome = models.CharField("nome do material", max_length=80, unique=True)
+    unidade = models.CharField("unidade de medida", max_length=2, choices=UNIDADES, default="kg")
+
+    class Meta:
+        ordering = ["nome"]
+        verbose_name = "tipo de material"
+        verbose_name_plural = "tipos de material"
+
+    def __str__(self):
+        return self.nome
+
+
+class Coleta(models.Model):
+    tipo = models.ForeignKey(TipoMaterial, on_delete=models.PROTECT, related_name="coletas", verbose_name="material")
+    data_coleta = models.DateField("data da coleta/retirada", default=timezone.localdate)
+    quantidade = models.DecimalField("quantidade (na unidade do material)", max_digits=10, decimal_places=2,
+                                     validators=[MinValueValidator(0)])
+    destinacao = models.CharField("destinação (local ou empresa)", max_length=200, blank=True)
+    certificado = models.FileField("certificado de descarte (PDF ou imagem)", upload_to="certificados/", blank=True,
+                                   validators=[FileExtensionValidator(["pdf", "jpg", "jpeg", "png"])])
+    observacoes = models.TextField("observações", blank=True)
+    registrado_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, editable=False)
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-data_coleta", "-criado_em"]
+        verbose_name = "coleta"
+        verbose_name_plural = "coletas"
+
+    def __str__(self):
+        return f"{self.tipo} em {self.data_coleta:%d/%m/%Y}"

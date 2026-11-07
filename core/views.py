@@ -7,8 +7,8 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import AdministradorForm, CadastroForm, FotoFormSet, PublicacaoForm
-from .models import Publicacao
+from .forms import AdministradorForm, CadastroForm, ColetaForm, FotoFormSet, PublicacaoForm, TipoMaterialForm
+from .models import Coleta, Publicacao, TipoMaterial
 
 
 def somente_admin(view):
@@ -91,3 +91,58 @@ def administrador_novo(request):
         messages.success(request, f"Administrador “{u.username}” criado.")
         return redirect("core:painel")
     return _formulario(request, form, "Novo administrador", "Criar administrador")
+
+
+@somente_admin
+def coletas(request):
+    qs = Coleta.objects.select_related("tipo")
+    tipo, ano = request.GET.get("tipo", ""), request.GET.get("ano", "")
+    if tipo.isdigit():
+        qs = qs.filter(tipo_id=tipo)
+    if ano.isdigit():
+        qs = qs.filter(data_coleta__year=ano)
+    unidades = dict(TipoMaterial.UNIDADES)
+    totais = [
+        {"nome": t["tipo__nome"], "total": t["total"], "unidade": unidades[t["tipo__unidade"]]}
+        for t in qs.values("tipo__nome", "tipo__unidade").annotate(total=Sum("quantidade")).order_by("tipo__nome")
+    ]
+    anos = [d.year for d in Coleta.objects.dates("data_coleta", "year", order="DESC")]
+    return render(request, "core/coletas.html", {
+        "coletas": qs, "totais": totais, "tipos": TipoMaterial.objects.all(), "anos": anos,
+        "tipo_sel": tipo, "ano_sel": ano,
+    })
+
+
+@somente_admin
+def coleta_salvar(request, pk=None):
+    obj = get_object_or_404(Coleta, pk=pk) if pk else None
+    form = ColetaForm(request.POST or None, request.FILES or None, instance=obj)
+    if form.is_valid():
+        c = form.save(commit=False)
+        if not c.registrado_por_id:
+            c.registrado_por = request.user
+        c.save()
+        messages.success(request, "Coleta salva.")
+        return redirect("core:coletas")
+    return _formulario(request, form, "Editar coleta" if obj else "Nova coleta", "Salvar")
+
+
+@somente_admin
+def coleta_excluir(request, pk):
+    obj = get_object_or_404(Coleta, pk=pk)
+    if request.method == "POST":
+        obj.delete()
+        messages.success(request, "Coleta excluída.")
+        return redirect("core:coletas")
+    return _formulario(request, None, f"Excluir a coleta de {obj.tipo} em {obj.data_coleta:%d/%m/%Y}?", "Excluir",
+                       aviso="Esta ação não pode ser desfeita.")
+
+
+@somente_admin
+def tipo_novo(request):
+    form = TipoMaterialForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Tipo de material criado.")
+        return redirect("core:coletas")
+    return _formulario(request, form, "Novo tipo de material", "Criar")

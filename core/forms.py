@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import FotoPublicacao, Publicacao
+from .models import Coleta, FotoPublicacao, Publicacao, TipoMaterial
 
 
 class CadastroForm(UserCreationForm):
@@ -51,3 +51,23 @@ class FotoForm(forms.ModelForm):
 
 
 FotoFormSet = forms.inlineformset_factory(Publicacao, FotoPublicacao, form=FotoForm, extra=3, can_delete=True)
+
+
+class TipoMaterialForm(forms.ModelForm):
+    class Meta:
+        model = TipoMaterial
+        fields = ("nome", "unidade")
+
+
+class ColetaForm(forms.ModelForm):
+    class Meta:
+        model = Coleta
+        fields = ("tipo", "data_coleta", "quantidade", "destinacao", "certificado", "observacoes")
+        widgets = {"data_coleta": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
+                   "observacoes": forms.Textarea(attrs={"rows": 3})}
+
+    def clean_certificado(self):
+        c = self.cleaned_data.get("certificado")
+        if c and getattr(c, "size", 0) > 10 * 1024 * 1024:
+            raise forms.ValidationError("O certificado deve ter no máximo 10 MB.")
+        return c
