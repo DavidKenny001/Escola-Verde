@@ -71,8 +71,12 @@ class TipoMaterial(models.Model):
 class Coleta(models.Model):
     tipo = models.ForeignKey(TipoMaterial, on_delete=models.PROTECT, related_name="coletas", verbose_name="material")
     data_coleta = models.DateField("data da coleta/retirada", default=timezone.localdate)
-    quantidade = models.DecimalField("quantidade (na unidade do material)", max_digits=10, decimal_places=2,
-                                     validators=[MinValueValidator(0)])
+    quantidade = models.DecimalField(
+    "quantidade (na unidade do material)",
+    max_digits=10,
+    decimal_places=3,
+    validators=[MinValueValidator(0)]
+)
     destinacao = models.CharField("destinação (local ou empresa)", max_length=200, blank=True)
     certificado = models.FileField("certificado de descarte (PDF ou imagem)", upload_to="certificados/", blank=True,
                                    validators=[FileExtensionValidator(["pdf", "jpg", "jpeg", "png"])])
